@@ -7,7 +7,7 @@ Check the sidebar. When a new version of this is created, `.jar` files will be c
 
 ## Setup
 
-Follow the instructions on [Bokutachi](https://bokutachi.xyz/dashboard/import/lr2oraja-ir).
+Follow the instructions on [Bokutachi](https://boku.tachi.ac/import/lr2oraja-ir).
 
 ## Compiling
 
@@ -23,4 +23,4 @@ The baseline for this implementation was provided by [Seraphin-](https://github.
 
 I do not like writing Java. Any contributions to this repository are massively appreciated, as it reduces the amount of time I have to spend writing Java.
 
-Despite this being a separate language, you should still read the [Tachi Contribution Guide](https://tachi.readthedocs.io/en/latest/codebase/contributing/).
+Despite this being a separate language, you should still read the [Tachi Contribution Guide](https://docs.tachi.ac/contributing/).
