@@ -6,6 +6,7 @@ import java.util.Arrays;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import bms.model.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -431,8 +432,55 @@ public class TachiIR implements IRConnection {
 		return rc.create(false, "Unimplemented.", new IRScoreData[0]);
 	}
 
+	class ChartResolveRequest {
+		public String matchType;
+		public String identifier;
+
+		ChartResolveRequest(String matchType, String identifier) {
+			this.matchType = matchType;
+			this.identifier = identifier;
+		}
+	}
+
 	public String getSongURL(IRChartData chart) {
-		// @todo Implement getSongUrl
+		String game;
+		String playtype;
+
+		switch (chart.mode) {
+			case BEAT_7K:
+				game = "bms";
+				playtype = "7K";
+				break;
+			case BEAT_14K:
+				game = "bms";
+				playtype = "14K";
+				break;
+			case POPN_9K:
+				// There's no match type for getting a PMS chart from
+				// its sha256, unfortunately.
+				return null;
+			default:
+				return null;
+		}
+
+		try {
+			ObjectWriter ow = new ObjectMapper().writer();
+			String json = ow.writeValueAsString(new ChartResolveRequest("bmsChartHash", chart.sha256));
+
+			TachiResponse resp = POSTRequest("/api/v1/games/" + game + "/" + playtype + "/charts/resolve", json);
+
+			if (!resp.success) {
+				return null;
+			}
+
+			int songID = resp.body.get("song").get("id").asInt();
+			String difficulty = resp.body.get("chart").get("difficulty").asText();
+
+			return BASE_URL + "/games/" + game + "/" + playtype + "/songs/" + songID + "/" + difficulty;
+		} catch (Exception e) {
+			log(e.toString(), Importance.ERROR);
+		}
+
 		return null;
 	}
 
