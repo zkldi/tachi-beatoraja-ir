@@ -6,14 +6,12 @@ import java.util.Arrays;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import bms.model.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import bms.player.beatoraja.MainController;
 import bms.player.beatoraja.ScoreData;
-import bms.player.beatoraja.ir.IRAccount;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
