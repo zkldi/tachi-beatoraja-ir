@@ -3,6 +3,11 @@ plugins {
     id("com.gradleup.shadow") version "9.3.1"
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 group = "xyz.zkldi.bokutachiIR"
 version = "3.1.2"
 
