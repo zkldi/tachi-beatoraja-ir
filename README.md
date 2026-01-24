@@ -13,7 +13,8 @@ Follow the instructions on [Bokutachi](https://boku.tachi.ac/import/lr2oraja-ir)
 
 - Copy the relevant build of `beatoraja.jar` into `external/beatoraja.jar`.
 - Set the TCHIR_HOME, TCHIR_NAME and TCHIR_BASE_URL environment variables to what they need to be.
-- Use `./gradlew build`. This will compile it into a single transferable `bokutachiIR-X.X.X-all.jar`
+- Use `./gradlew build`. This will compile it into a single transferable `buildlibs/bokutachiIR-X.X.X-all.jar`
+- There is another file in here, called `BokutachiIR-X.X.X.jar`. This is not what you want, so don't use it.
 
 ## Acknowledgements
 
