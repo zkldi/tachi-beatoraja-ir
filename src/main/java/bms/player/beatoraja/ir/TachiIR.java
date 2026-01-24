@@ -1,7 +1,9 @@
 package bms.player.beatoraja.ir;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -23,24 +25,36 @@ import okhttp3.Response;
 // I have modified it for my own ends, but the same base is here.
 
 public class TachiIR implements IRConnection {
+
+	public static final String BEATORAJA_CLIENT_VERSION = MainController.getVersion();
+
+	// These variables need to be static and have those specific visibilities
+	// They're read by beatoraja through reflection
+	public static final String NAME;
+	public static final String HOME;
+	public static final String VERSION;
+	private static final String BASE_URL;
+
+	static {
+		var properties = new Properties();
+		var classLoader = Thread.currentThread().getContextClassLoader();
+		try (var inputStream = classLoader.getResourceAsStream("tachi.properties")) {
+			properties.load(inputStream);
+		} catch (IOException ex) {
+			panic();
+		}
+		NAME = properties.getProperty("tachi.ir.name");
+		HOME = properties.getProperty("tachi.ir.home");
+		VERSION = properties.getProperty("tachi.ir.version");
+		BASE_URL = properties.getProperty("tachi.ir.baseUrl");
+	}
+
 	enum Importance {
 		DEBUG,
 		INFO,
 		WARNING,
 		ERROR
 	}
-
-	// Do NOT move these variables.
-	// I mean this literally. Do not move them, do not touch them for any reason.
-	// It is part of the worlds worst templating system that I hacked
-	// together in sed in like 5 minutes.
-	// Go ahead. Look into the nice alternatives, I dare you.
-	public static final String NAME = "${tachi.name}";
-	public static final String HOME = "${tachi.home}";
-	public static final String VERSION = "${tachi.version}";
-	private static final String BASE_URL = "${tachi.baseUrl}";
-
-	public static final String BEATORAJA_CLIENT_VERSION = MainController.getVersion();
 
 	private String apiToken = "";
 
@@ -169,7 +183,7 @@ public class TachiIR implements IRConnection {
 	 * This is the only way to throw errors, and is generally a horrific idea. Ah
 	 * well.
 	 */
-	private void panic() {
+	private static void panic() {
 		throw new RuntimeException(
 				"This build of TachiIR is critically broken. Report this, or check the logs above to see if it was your fault.");
 	}
